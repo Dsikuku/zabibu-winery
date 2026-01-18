@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors */
+  --color-zabibu-dark: #1a1415;
+  --color-zabibu-vine: #4a0e0e;
+  --color-zabibu-gold: #c5a059;
+  --color-zabibu-stone: #f4f1ee;
+
+  /* Font Variables */
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-inter);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    /* Use the variables we just defined */
+    background-color: var(--color-zabibu-stone);
+    color: var(--color-zabibu-dark);
+    @apply antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    background-color: var(--color-zabibu-dark);
+    @apply text-white px-8 py-4 rounded-full uppercase tracking-widest text-[10px] font-bold transition-all duration-300;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-zabibu-gold);
+    @apply shadow-lg;
+  }
+}
