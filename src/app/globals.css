@@ -10,6 +10,12 @@
   /* Font Variables */
   --font-serif: var(--font-playfair);
   --font-sans: var(--font-inter);
+  
+  /* Ensure standard breakpoints are explicitly defined if needed */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
 }
 
 @layer base {
