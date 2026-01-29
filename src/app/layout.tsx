@@ -19,13 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Zabibu Estate | VQA Grimsby Bench Vintners",
   description: "Artisanal wines from the Grimsby Bench. Experience the tension and elegance of Ontario's finest terroir.",
-  // Reference your favicon.png here
-  icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png", // This also works as a basic mobile icon
-  },
-  // OpenGraph helps social media show your wordmark and info correctly
+  // The 'icons' block is removed because Next.js automatically finds src/app/icon.png
   openGraph: {
     title: "Zabibu Estate",
     description: "Artisanal wines from the Grimsby Bench.",
