@@ -6,19 +6,34 @@ import Footer from "@/components/layout/Footer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-playfair", // Matches the CSS variable above
+  variable: "--font-playfair",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter", // Matches the CSS variable above
+  variable: "--font-inter",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Zabibu Estate | VQA Grimsby Bench Vintners",
-  description: "Artisanal wines from the Grimsby Bench.",
+  description: "Artisanal wines from the Grimsby Bench. Experience the tension and elegance of Ontario's finest terroir.",
+  // Reference your favicon.png here
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png", // This also works as a basic mobile icon
+  },
+  // OpenGraph helps social media show your wordmark and info correctly
+  openGraph: {
+    title: "Zabibu Estate",
+    description: "Artisanal wines from the Grimsby Bench.",
+    url: "https://zabibu-winery.vercel.app",
+    siteName: "Zabibu Estate",
+    locale: "en_CA",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
