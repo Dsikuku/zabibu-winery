@@ -1,17 +1,19 @@
 "use client";
 import { useParams, useRouter } from 'next/navigation';
-import { WINES, Wine as WineType } from '@/lib/data';
+import { WINES } from '@/lib/data';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Minus, Plus, ShoppingBag, Globe, Wine, Thermometer } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import WineCard from '@/components/ui/WineCard';
+import { useCart } from '@/context/CartContext'; // Ensure this path matches your folder structure
 
 export default function ProductPage() {
   const params = useParams();
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart(); // Accessing the cart context logic
 
   const wine = WINES.find((w) => w.id === params.id);
 
@@ -27,6 +29,12 @@ export default function ProductPage() {
   }
 
   const relatedWines = WINES.filter(w => w.id !== wine.id).slice(0, 3);
+
+  // Handler for adding to cart
+  const handleAddToCart = () => {
+    addToCart(wine, quantity);
+    // You could also trigger a toast notification here if desired
+  };
 
   return (
     <main className="min-h-screen bg-[#f4f1ee]/50 pt-32 pb-20">
@@ -92,18 +100,55 @@ export default function ProductPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex items-center justify-between border border-black/10 rounded-full px-6 py-4 sm:w-40">
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))}><Minus size={18} /></button>
-                  <span className="font-bold">{quantity}</span>
-                  <button onClick={() => setQuantity(quantity + 1)}><Plus size={18} /></button>
+                <div className="flex items-center justify-between border border-black/10 rounded-full px-6 py-4 sm:w-40 bg-white">
+                  <button 
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="hover:text-[#c5a059] transition-colors"
+                  >
+                    <Minus size={18} />
+                  </button>
+                  <span className="font-bold w-8 text-center">{quantity}</span>
+                  <button 
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="hover:text-[#c5a059] transition-colors"
+                  >
+                    <Plus size={18} />
+                  </button>
                 </div>
-                <button className="flex-grow bg-[#1a1415] text-white rounded-full py-4 px-8 uppercase tracking-widest text-xs font-bold hover:bg-[#c5a059] transition-all flex items-center justify-center gap-3">
+                
+                {/* Add to Cart Button linked to Context */}
+                <button 
+                  onClick={handleAddToCart}
+                  className="flex-grow bg-[#1a1415] text-white rounded-full py-4 px-8 uppercase tracking-widest text-xs font-bold hover:bg-[#c5a059] active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-lg shadow-black/5"
+                >
                   <ShoppingBag size={18} /> Add to Collection
                 </button>
               </div>
             </motion.div>
           </div>
         </div>
+
+        {/* Related Wines Section */}
+        <section className="mt-32 border-t border-black/5 pt-20">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <span className="text-[#c5a059] uppercase tracking-[0.3em] text-[10px] font-bold">Discover More</span>
+              <h2 className="font-serif text-4xl text-[#1a1415] mt-2">From the same Terroir</h2>
+            </div>
+            <Link 
+              href="/shop" 
+              className="text-[10px] uppercase tracking-widest font-bold border-b border-[#c5a059] pb-1 hover:text-[#c5a059] transition-colors mb-2"
+            >
+              View Full Collection
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {relatedWines.map((relatedWine) => (
+              <WineCard key={relatedWine.id} wine={relatedWine} />
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );

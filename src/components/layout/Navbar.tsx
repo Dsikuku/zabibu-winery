@@ -1,14 +1,18 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Menu, X, User } from 'lucide-react';
+import { ShoppingBag, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const pathname = usePathname();
+  
+  // Hook into our Cart Context
+  const { totalItems, setIsCartOpen } = useCart();
 
   const isHome = pathname === "/";
   
@@ -55,10 +59,22 @@ export default function Navbar() {
           </div>
           
           <div className="flex items-center gap-4 border-l border-current/20 pl-6">
-            <div className="relative cursor-pointer">
+            {/* Clickable Shopping Bag */}
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className="relative cursor-pointer hover:text-[#c5a059] transition-colors active:scale-90"
+            >
               <ShoppingBag size={20} />
-              <span className="absolute -top-2 -right-2 bg-[#c5a059] text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
-            </div>
+              {totalItems > 0 && (
+                <motion.span 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-2 -right-2 bg-[#c5a059] text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center font-bold"
+                >
+                  {totalItems}
+                </motion.span>
+              )}
+            </button>
             
             {/* Hamburger Button - Forced Visibility */}
             <button 
@@ -76,9 +92,10 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileMenu && (
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed inset-0 bg-[#f4f1ee] z-[10000] flex flex-col p-8 text-[#1a1415]"
           >
             <div className="flex justify-between items-center mb-12">
