@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function CartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, addToCart, removeFromCart, totalItems } = useCart();
@@ -89,9 +90,13 @@ export default function CartDrawer() {
                   <span className="text-gray-400 uppercase tracking-widest text-[10px] font-bold">Subtotal</span>
                   <span className="text-2xl font-serif">${subtotal.toFixed(2)}</span>
                 </div>
-                <button className="w-full bg-[#1a1415] text-white rounded-full py-5 px-8 uppercase tracking-widest text-xs font-bold hover:bg-[#c5a059] transition-all shadow-xl shadow-black/10">
-                  Proceed to Checkout
-                </button>
+                <Link 
+                    href="/checkout"
+                    onClick={() => setIsCartOpen(false)}
+                    className="w-full bg-[#1a1415] text-white rounded-full py-5 px-8 uppercase tracking-widest text-xs font-bold hover:bg-[#c5a059] transition-all shadow-xl shadow-black/10 flex items-center justify-center"
+                >
+                    Proceed to Checkout
+                </Link>
                 <p className="text-[9px] text-center text-gray-400 uppercase tracking-widest">
                   Shipping & taxes calculated at checkout
                 </p>
